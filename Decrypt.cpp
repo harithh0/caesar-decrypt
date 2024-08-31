@@ -20,6 +20,12 @@ double calculate_meaningful_percentage(const std::string& sentence, const std::s
     
     std::ifstream file(file_path);
     std::string word;
+
+    if(!file.is_open()){
+        std::cout << "\033[31m" << "words.txt file not found.\n Please make sure the file is in the same directory as the executable" << "\033[0m" << std::endl;
+        exit(1);
+    }
+
     while (file >> word) {
         std::transform(word.begin(), word.end(), word.begin(), ::tolower);
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
