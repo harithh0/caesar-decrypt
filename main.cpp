@@ -19,18 +19,17 @@ int main()
                                                                           )" << std::endl;
 
     std::string cipherText;
-    char showAccurateAnswer = false;
+    char showAccurateAnswerInput;
+    bool showAccurateAnswer = false;
 
     std::cout << "Enter cipher text: ";
     std::getline(std::cin, cipherText);
 
     if(cipherText.length() > 10){
         std::cout << "Show most accurate result at the end?(takes time) (y/n): ";
-        std::cin >> showAccurateAnswer;
-        if(std::tolower(showAccurateAnswer) == 'y'){
+        std::cin >> showAccurateAnswerInput;
+        if(std::tolower(showAccurateAnswerInput) == 'y'){
             showAccurateAnswer = true;
-        }else{
-            showAccurateAnswer = false;
         }
     }
 
