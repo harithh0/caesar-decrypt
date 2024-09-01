@@ -1,4 +1,5 @@
 #include "Decrypt.h"
+#include "words.h"
 #include <vector>
 
 
@@ -14,18 +15,14 @@
 
 
 // basically this function calculates the percentage of meaningful words in a sentence to give best accurate answer (kinda slow though)
-double calculate_meaningful_percentage(const std::string& sentence, const std::string& file_path) {
-
+double calculate_meaningful_percentage(const std::string& sentence) {
     std::set<std::string> dictionary;
     
-    std::ifstream file(file_path);
+    std::string embeddedData(words_txt, words_txt + words_txt_len);
+
+    std::istringstream file(embeddedData);
     std::string word;
-
-    if(!file.is_open()){
-        std::cout << "\033[31m" << "words.txt file not found.\n Please make sure the file is in the same directory as the executable" << "\033[0m" << std::endl;
-        exit(1);
-    }
-
+    
     while (file >> word) {
         std::transform(word.begin(), word.end(), word.begin(), ::tolower);
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -57,7 +54,6 @@ double calculate_meaningful_percentage(const std::string& sentence, const std::s
     double percentage = (static_cast<double>(meaningful_words) / words.size()) * 100;
     return percentage;
 }
-
 
 
 Decrypt::Decrypt(const std::string& text, const bool& showAccurate) {
@@ -131,7 +127,7 @@ void Decrypt::decryptText() {
     for(int i = 0; i < 26; i++){
         decrypted_messages[i] = work(this->encryptedText, i);
         if(this->showAccurate){
-            percentages[i] = calculate_meaningful_percentage(decrypted_messages[i], "words.txt");
+            percentages[i] = calculate_meaningful_percentage(decrypted_messages[i]);
         }
         if(i == 0){
             std::cout  << "\033[32m" << "Original Message: " << "\033[0m" << decrypted_messages[i] << std::endl;
